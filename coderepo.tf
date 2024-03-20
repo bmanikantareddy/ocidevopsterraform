@@ -14,7 +14,7 @@ variable "repository_repository_type" {
 resource "oci_devops_repository" "test_repository" {
   #Required
   name       = var.repository_name
-  project_id = oci_devops_project.test_project.id
+  project_id = oci_devops_project.devops_project.id
 
   #Optional
   default_branch = var.repository_default_branch
