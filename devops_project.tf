@@ -9,17 +9,6 @@ resource "oci_devops_project" "devops_project" {
 }
 
 
-resource "oci_logging_configuration" "example_logging_config" {
-  compartment_id = var.compartment_id
-  name           = "example-logging-config"
-  description    = "Example logging configuration"
-
-  log_sources {
-    service     = "devops"
-    resource_id = oci_devops_project.devops_project.id
-  }
-}
-
 output "project_id" {
   value = oci_devops_project.devops_project.id
 }

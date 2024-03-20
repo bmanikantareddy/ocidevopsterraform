@@ -11,7 +11,7 @@ variable "repository_repository_type" {
   default = "HOSTED"
 }
 
-resource "oci_devops_repository" "test_repository" {
+resource "oci_devops_repository" "code_repository" {
   #Required
   name       = var.repository_name
   project_id = oci_devops_project.devops_project.id

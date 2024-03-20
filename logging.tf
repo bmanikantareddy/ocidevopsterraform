@@ -7,7 +7,7 @@
 
 # resource "oci_logging_log" "devops_log" {
 #     #Required
-#     display_name = "devops_project_log"
+#     display_name = "devops_project_logs_all"
 #     log_group_id = oci_logging_log_group.devops_log_group.id
 #     log_type = "SERVICE"
 
@@ -16,8 +16,8 @@
 #         #Required
 #         source {
 #             #Required
-#             category    = "DevOps Logs"
-#             service     = "devops"
+#             category    = "all"
+#             service     = "DevOps"
 #             source_type = "OCISERVICE"
            
 #             resource = oci_logging_log_group.devops_log_group.id
