@@ -1,0 +1,17 @@
+# Ignore Terraform state files
+# *.tfstate
+# *.tfstate.*
+# terraform.tfstate.backup
+
+# Ignore any .terraform directories
+**/.terraform/*
+
+# Ignore .tfplan files
+*.tfplan
+
+# Ignore .tfvars files that are intended to be kept private
+*.tfvars
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
