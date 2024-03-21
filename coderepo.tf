@@ -30,3 +30,6 @@ output "code_repo" {
     ssh_url  = oci_devops_repository.code_repository.ssh_url
   }
 }
+
+#TODO 
+# NULL Resource and add code and git push 

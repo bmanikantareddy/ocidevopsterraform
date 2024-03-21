@@ -30,3 +30,6 @@
 #     retention_duration = 30
 #     depends_on = [oci_logging_log_group.devops_log_group]
 # }
+
+
+# The above code didn't enabling the Created devops project logs.
