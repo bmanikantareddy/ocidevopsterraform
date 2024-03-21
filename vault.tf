@@ -38,17 +38,17 @@ resource "oci_kms_key" "sign_mek" {
     depends_on = [ oci_kms_vault.devops_vault ]
 }
 
-resource "oci_vault_secret" "samplesecret" {
+resource "oci_vault_secret" "ocirtoken" {
   compartment_id = var.compartment_ocid
   key_id         = oci_kms_key.default_mek.id
   secret_content {
     content_type = "BASE64"
 
-    content = base64encode("empty cert secret")
+    content = base64encode(oci_identity_auth_token.auth_token.token)
     # name    = "${var.cert_secret_name}-${var.environment}"
   }
-  secret_name = "samplesecret"
-  description = "sample secret"
+  secret_name = "ocir_token_terraform"
+  description = "Auth token for OCIR docker login/pull/push"
   vault_id    = oci_kms_vault.devops_vault.id
 }
 
@@ -58,12 +58,16 @@ resource "oci_identity_auth_token" "auth_token" {
     user_id = var.user_ocid
 }
 
-output "signing_key" {
+output "kms_signing_key" {
     value = oci_kms_key.sign_mek.id
 }
-output "signing_key_version" {
+output "kms_signing_key_version" {
     value = oci_kms_key.sign_mek.current_key_version
 }
 output "auth_token" {
-    value = oci_identity_auth_token.auth_token
+    value = oci_identity_auth_token.auth_token.token
+}
+
+output "ocirtoken_vault_ocid" {
+  value = oci_vault_secret.ocirtoken.id
 }
