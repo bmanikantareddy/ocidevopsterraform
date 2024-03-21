@@ -2,7 +2,7 @@ variable "repository_name" {
   default = "terraform_code_repo"
 }
 variable "repository_default_branch" {
-  default = "main"
+  default = "refs/heads/main"
 }
 variable "repository_description" {
   default = "MicroService Code repository created by Terraform"
