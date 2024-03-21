@@ -23,3 +23,10 @@ resource "oci_devops_repository" "code_repository" {
   repository_type = var.repository_repository_type
 
 }
+
+output "code_repo" {
+  value = {
+    http_url = oci_devops_repository.code_repository.http_url
+    ssh_url  = oci_devops_repository.code_repository.ssh_url
+  }
+}
