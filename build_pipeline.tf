@@ -119,11 +119,6 @@ resource "oci_devops_build_pipeline" "build_pipeline" {
   }
 }
 
-
-
-
-
-
 # resource "oci_devops_build_pipeline" "build_pipeline" {
 #   project_id = oci_devops_project.devops_project.id
 
@@ -179,6 +174,29 @@ resource "oci_devops_build_pipeline_stage" "compile_build_pipeline_stage" {
     stage_execution_timeout_in_seconds = 36000
 }
 
-output "pipeline" {
-  value = oci_devops_build_pipeline.build_pipeline
+resource "oci_devops_build_pipeline_stage" "collect_artifacts" {
+    #Required
+    build_pipeline_id = oci_devops_build_pipeline.build_pipeline.id
+    build_pipeline_stage_predecessor_collection {
+        #Required
+        items {
+            #Required
+            id = oci_devops_build_pipeline_stage.compile_build_pipeline_stage.id
+        }
+    }
+    build_pipeline_stage_type = "DELIVER_ARTIFACT"
+    description = "saveArtifcats from previous stage and push items to artifact repo"
+    display_name = "saveArtifacts"
+    stage_execution_timeout_in_seconds = 36000
+
+    deliver_artifact_collection {
+    items {
+      artifact_id   = oci_devops_deploy_artifact.test_deploy_artifact.id
+      artifact_name = "service_yaml"
+    }
+    items {
+      artifact_id   = oci_devops_deploy_artifact.test_deploy_artifact.id
+      artifact_name = "deployment_yaml"
+    }
+  }
 }
