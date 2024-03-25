@@ -119,26 +119,6 @@ resource "oci_devops_build_pipeline" "build_pipeline" {
   }
 }
 
-# resource "oci_devops_build_pipeline" "build_pipeline" {
-#   project_id = oci_devops_project.devops_project.id
-
-#   description  = var.build_pipeline_description
-#   display_name = var.build_pipeline_name
-  
-#   build_pipeline_parameters {
-#         items{
-#             name = "USER_AUTH_TOKEN"
-#             default_value = "sampleuser_AuthTOken"
-#             description = "User auth token to push helm packages."
-#         }
-#         items {
-#             name = "USER_AUTH_TOKEN1"
-#             default_value = "sampleuser_AuthTOken"
-#             description = "User auth token to push helm packages."
-#         }
-#     }
-# }
-
 resource "oci_devops_build_pipeline_stage" "compile_build_pipeline_stage" {
     #Required
     build_pipeline_id = oci_devops_build_pipeline.build_pipeline.id
@@ -191,12 +171,68 @@ resource "oci_devops_build_pipeline_stage" "collect_artifacts" {
 
     deliver_artifact_collection {
     items {
-      artifact_id   = oci_devops_deploy_artifact.test_deploy_artifact.id
+      artifact_id   = oci_devops_deploy_artifact.deploy_artifact_serviceyaml.id
       artifact_name = "service_yaml"
     }
     items {
-      artifact_id   = oci_devops_deploy_artifact.test_deploy_artifact.id
+      artifact_id   = oci_devops_deploy_artifact.deploy_artifact_deploymentyaml.id
       artifact_name = "deployment_yaml"
     }
   }
+}
+
+resource "oci_devops_build_pipeline_stage" "trigger_deployment" {
+    #Required
+    build_pipeline_id = oci_devops_build_pipeline.build_pipeline.id
+    build_pipeline_stage_predecessor_collection {
+        #Required
+        items {
+            #Required
+            id = oci_devops_build_pipeline_stage.collect_artifacts.id
+        }
+    }
+    deploy_pipeline_id = oci_devops_deploy_pipeline.deploy_pipeline.id
+    build_pipeline_stage_type = "TRIGGER_DEPLOYMENT_PIPELINE"
+    description = "Build Pipeline To trigger deployment pipeline"
+    display_name = "TriggerStoreFrontDeploymentPipeline"
+    stage_execution_timeout_in_seconds = 36000
+    is_pass_all_parameters_enabled = true
+}
+
+resource "oci_devops_deploy_artifact" "deploy_artifact_serviceyaml" {
+    #Required
+    argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
+    deploy_artifact_source {
+        #Required
+        deploy_artifact_source_type = "GENERIC_ARTIFACT"
+
+        deploy_artifact_path = "storefrontserviceyaml"
+        deploy_artifact_version = "$${STOREFRONT_VERSION}"
+
+        repository_id = "ocid1.artifactrepository.oc1.iad.0.amaaaaaadtxgs2aabqzqzdzqu7a5lsropiba7mvsqjculsadvhluvsyytwpq"
+    }
+    deploy_artifact_type = "KUBERNETES_MANIFEST"
+    project_id = oci_devops_project.devops_project.id
+
+    description = "kuberentes manifest for service yaml storefront app"
+    display_name = "storefrontserviceyaml"
+}
+
+resource "oci_devops_deploy_artifact" "deploy_artifact_deploymentyaml" {
+    #Required
+    argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
+    deploy_artifact_source {
+        #Required
+        deploy_artifact_source_type = "GENERIC_ARTIFACT"
+
+        deploy_artifact_path = "storefrontdeploymentyaml"
+        deploy_artifact_version = "$${STOREFRONT_VERSION}"
+
+        repository_id = "ocid1.artifactrepository.oc1.iad.0.amaaaaaadtxgs2aabqzqzdzqu7a5lsropiba7mvsqjculsadvhluvsyytwpq"
+    }
+    deploy_artifact_type = "KUBERNETES_MANIFEST"
+    project_id = oci_devops_project.devops_project.id
+
+    description = "kuberentes manifest for deployment yaml storefront app"
+    display_name = "storefrontdeploymentyaml"
 }
