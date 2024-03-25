@@ -191,6 +191,7 @@ resource "oci_devops_build_pipeline_stage" "trigger_deployment" {
             id = oci_devops_build_pipeline_stage.collect_artifacts.id
         }
     }
+    # need to replace this after creating deploy pipeline tf resource
     deploy_pipeline_id = oci_devops_deploy_pipeline.deploy_pipeline.id
     build_pipeline_stage_type = "TRIGGER_DEPLOYMENT_PIPELINE"
     description = "Build Pipeline To trigger deployment pipeline"
