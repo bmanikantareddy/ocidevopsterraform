@@ -14,16 +14,6 @@ variable "build_pipeline_parameters" {
   }))
   default = [
     {
-      name           = "param1"
-      default_value  = "sampleuser_AuthTOken"
-      description    = "User auth token to push helm packages."
-    },
-    {
-      name           = "param2"
-      default_value  = "sampleuser_AuthTOken"
-      description    = "User auth token to push helm packages."
-    },
-    {
       default_value = "ocid1.key.oc1.iad.ejs6i7jbaabpy.abuwcljsijbdn6gv5p7uz2w7akpltfoumgmlgpp3sjrae2gi7iwfhu3xwlba"
       description   = "singing key"
       name          = "SIGNING_KEY"
