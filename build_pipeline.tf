@@ -14,11 +14,6 @@ variable "build_pipeline_parameters" {
   }))
   default = [
     {
-      default_value = "ocid1.key.oc1.iad.ejs6i7jbaabpy.abuwcljsijbdn6gv5p7uz2w7akpltfoumgmlgpp3sjrae2gi7iwfhu3xwlba"
-      description   = "singing key"
-      name          = "SIGNING_KEY"
-    },
-    {
       default_value = "oal_devops_project/storefront"
       description   = "repo name to be used as a docker image name"
       name          = "REPO_NAME_PROD"
@@ -44,11 +39,6 @@ variable "build_pipeline_parameters" {
       name          = "VAULT_USER_EMAIL"
     },
     {
-      default_value = "ocid1.vaultsecret.oc1.iad.amaaaaaadtxgs2aazaumneyj2p7valiv6xbngy54624773zpm5zi56k6nbsq"
-      description   = "docker token to push images. OCID of secret created in Vault."
-      name          = "VAULT_DOCKER_TOKEN"
-    },
-    {
       default_value = "ocid1.vaultsecret.oc1.iad.amaaaaaadtxgs2aa2mtwjiryeu3sgij3gmwe2motztt5whk4lgnhwfr6d5qq"
       description   = "OCIR storage namespace from secret vault created secret OCID."
       name          = "VAULT_STORAGE_NAMESPACE"
@@ -58,21 +48,7 @@ variable "build_pipeline_parameters" {
       description   = "OCIR host OCID. secret OCID created in vault"
       name          = "VAULT_HOST_OCID"
     },
-    {
-      default_value = "ocid1.admknowledgebase.oc1.iad.amaaaaaadtxgs2aadgfodrhoukzrypokb6hxtnbw6abfh5cpk2tavmya33cq"
-      description   = "Knowledge base OCID VulnerabilityAudit of repo code"
-      name          = "KB_OCID"
-    },
-    {
-      default_value = "ocid1.keyversion.oc1.iad.ejs6i7jbaabpy.ayqqmxs5yeyaa.abuwcljs3nmcxb6mxw7dirpgnjtegipzll44josywu3oxls6orc44sxmumpq"
-      description   = "Signing key version OCID"
-      name          = "SIGNING_KEY_VERSION"
-    },
-    {
-      default_value = "ocid1.key.oc1.iad.ejs6i7jbaabpy.abuwcljsijbdn6gv5p7uz2w7akpltfoumgmlgpp3sjrae2gi7iwfhu3xwlba"
-      description   = "OCIR Signing Key OCID"
-      name          = "SIGNING_KEY_OCIR"
-    },
+
     {
       default_value = "OAL_STORE_FRONT_POC"
       description   = "Team's project Name"
@@ -91,6 +67,38 @@ variable "build_pipeline_parameters" {
   ]
 }
 
+locals {
+  combined_parameters = concat(
+    var.build_pipeline_parameters,
+    [
+      {
+        default_value = oci_kms_key.sign_mek.current_key_version
+        description   = "Signing key version OCID"
+        name          = "SIGNING_KEY_VERSION"
+      },
+      {
+        default_value = oci_kms_key.sign_mek.id
+        description   = "OCIR Signing Key OCID"
+        name          = "SIGNING_KEY_OCIR"
+      },
+
+      {
+        default_value = oci_identity_auth_token.auth_token.token
+        description   = "docker token to push images. OCID of secret created in Vault."
+        name          = "VAULT_DOCKER_TOKEN"
+      },
+
+      {
+        default_value = oci_adm_knowledge_base.knowledge_base.id
+        description   = "Knowledge base OCID VulnerabilityAudit of repo code"
+        name          = "KB_OCID"
+      },
+      # Add more additional parameters as needed
+    ]
+  )
+}
+
+
 resource "oci_devops_build_pipeline" "build_pipeline" {
   project_id     = oci_devops_project.devops_project.id
   description    = var.build_pipeline_description
@@ -98,7 +106,7 @@ resource "oci_devops_build_pipeline" "build_pipeline" {
 
   build_pipeline_parameters {
     dynamic "items" {
-      for_each = var.build_pipeline_parameters
+      for_each = local.combined_parameters #var.build_pipeline_parameters
 
       content {
         name           = items.value.name
