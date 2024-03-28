@@ -1,9 +1,11 @@
 variable "project_name" {
     default = "Java_micro_service"
+    type    = string 
 }
 
 variable "project_description" {
   default = "OCI Devops project created by Terraform"
+  type    = string 
 }
 
 resource "oci_devops_project" "devops_project" {
