@@ -1,16 +1,3 @@
-variable "repository_name" {
-  default = "terraform_code_repo"
-}
-variable "repository_default_branch" {
-  default = "refs/heads/main"
-}
-variable "repository_description" {
-  default = "MicroService Code repository created by Terraform"
-}
-variable "repository_repository_type" {
-  default = "HOSTED"
-}
-
 resource "oci_devops_repository" "code_repository" {
   #Required
   name       = var.repository_name
