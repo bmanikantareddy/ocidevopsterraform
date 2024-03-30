@@ -5,9 +5,9 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_ocid" {}
+variable "compartment_id" {}
 variable "oci_username" {}
-variable "oci_user_authtoken" {}
+# variable "oci_user_authtoken" {}
 variable "config_file_profile" { 
     default = "DEFAULT"
 }
