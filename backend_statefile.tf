@@ -15,7 +15,9 @@
 terraform {
   backend "http" {
     update_method = "PUT"
-    address       = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/lq_DvJNLEhWGqjVCLKI5_JDRtZQ6p296uI76HZYbwhP9chnA41u-myzfkXL03yMB/n/idj2eg1x3f00/b/ocidevops-terraform-state/o/module/terraform.state"
+    address       = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/vykH0EbRlb-78ZQSmi8GdUZt7rxex0jBmWXUNPeuTno15OBQB5mWEXp1OTvUNtGP/n/idlmjvvqgjze/b/fsretools_terraform_state_files/o/fsretools_devops_project_tfstatefile/terraform.state"
+
+# https://objectstorage.us-ashburn-1.oraclecloud.com/p/vykH0EbRlb-78ZQSmi8GdUZt7rxex0jBmWXUNPeuTno15OBQB5mWEXp1OTvUNtGP/n/idlmjvvqgjze/b/fsretools_terraform_state_files/o/
   }
 }
 
