@@ -17,3 +17,7 @@ output "auth_token" {
 output "ocirtoken_vault_ocid" {
   value = oci_vault_secret.ocirtoken.id
 }
+
+output "knowledge_base_id" {
+  value = oci_adm_knowledge_base.knowledge_base.id
+}

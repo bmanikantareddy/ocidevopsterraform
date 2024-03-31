@@ -4,7 +4,36 @@ module "prereq" {
   tenancy_ocid = var.tenancy_ocid
   compartment_id = var.compartment_id
   user_ocid = var.user_ocid
+}
 
+locals {
+  combined_parameters = concat(
+    var.build_pipeline_parameters,
+    [
+      {
+        default_value = module.prereq.kms_signing_key_version
+        description   = "Signing key version OCID"
+        name          = "SIGNING_KEY_VERSION"
+      },
+      {
+        default_value = module.prereq.kms_signing_key
+        description   = "OCIR Signing Key OCID"
+        name          = "SIGNING_KEY_OCIR"
+      },
+      {
+        default_value = module.prereq.ocirtoken_vault_ocid
+        description   = "docker token to push images. OCID of secret created in Vault."
+        name          = "VAULT_DOCKER_TOKEN"
+      },
+
+      {
+        default_value = module.prereq.knowledge_base_id
+        description   = "Knowledge base OCID VulnerabilityAudit of repo code"
+        name          = "KB_OCID"
+      },
+      # Add more additional parameters as needed
+    ]
+  )
 }
 
 module "pipeline" {
@@ -14,7 +43,10 @@ module "pipeline" {
 #   tenancy_ocid = var.tenancy_ocid
   compartment_id = var.compartment_id
   topic_id = module.prereq.topic_id
-  oci_ons_notification_topic.devops_notification_topic.id
-
-#   user_ocid = var.user_ocid
+  project_name = var.project_name
+  project_description = var.project_description
+  build_pipeline_parameters = local.combined_parameters
+  build_pipeline_name = var.build_pipeline_name
+  build_pipeline_description = var.build_pipeline_description
+  repository_name = var.repository_name
 }

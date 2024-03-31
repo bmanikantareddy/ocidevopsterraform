@@ -90,3 +90,58 @@ variable "knowledge_base_display_name" {
 }
 
 variable "dynamic_group_name" {}
+
+# Devops project 
+variable "project_name" {}
+variable "project_description" {}
+
+#code repo
+variable "repository_name" {}
+variable "repository_default_branch" {
+  default = "refs/heads/main"
+}
+variable "repository_description" {
+  default = "MicroService Code repository created by Terraform"
+}
+
+# Build pipeline parameters
+variable "build_pipeline_name" {}
+variable "build_pipeline_description" {
+  default = "Build Pipeline to compile,package & build docker/helm packages"
+}
+variable "build_pipeline_parameters" {
+  type = list(object({
+    default_value = string
+    description   = string
+    name          = string
+  }))
+  default = [{}]
+}
+
+# Deploy pipeline parameters
+variable "deploy_pipeline_parameters" {
+  type = list(object({
+    default_value = string
+    description   = string
+    name          = string
+  }))
+  default = [{}]
+}
+
+# Deploy pipeline description
+variable "deploy_pipeline_description" {}
+
+# Deploy pipeline display name
+variable "deploy_pipeline_display_name" {}
+
+# OKE namespace
+variable "oke_namespace" {}
+
+# OCI cluster ID
+variable "oci_cluster_id" {}
+
+# Deploy environment description
+variable "deploy_environment_description" {}
+
+# Deploy environment display name
+variable "deploy_environment_display_name" {}
