@@ -115,7 +115,7 @@ variable "build_pipeline_parameters" {
     description   = string
     name          = string
   }))
-  default = [{}]
+  default = []
 }
 
 # Deploy pipeline parameters
@@ -125,7 +125,7 @@ variable "deploy_pipeline_parameters" {
     description   = string
     name          = string
   }))
-  default = [{}]
+  default = []
 }
 
 # Deploy pipeline description

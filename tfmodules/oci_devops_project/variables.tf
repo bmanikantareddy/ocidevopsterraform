@@ -29,36 +29,36 @@ variable "build_pipeline_parameters" {
   default = []
 }
 
-locals {
-  combined_parameters = concat(
-    var.build_pipeline_parameters,
-    [
-      {
-        default_value = oci_kms_key.sign_mek.current_key_version
-        description   = "Signing key version OCID"
-        name          = "SIGNING_KEY_VERSION"
-      },
-      {
-        default_value = oci_kms_key.sign_mek.id
-        description   = "OCIR Signing Key OCID"
-        name          = "SIGNING_KEY_OCIR"
-      },
+# locals {
+#   combined_parameters = concat(
+#     var.build_pipeline_parameters,
+#     [
+#       {
+#         default_value = oci_kms_key.sign_mek.current_key_version
+#         description   = "Signing key version OCID"
+#         name          = "SIGNING_KEY_VERSION"
+#       },
+#       {
+#         default_value = oci_kms_key.sign_mek.id
+#         description   = "OCIR Signing Key OCID"
+#         name          = "SIGNING_KEY_OCIR"
+#       },
 
-      {
-        default_value = oci_identity_auth_token.auth_token.token
-        description   = "docker token to push images. OCID of secret created in Vault."
-        name          = "VAULT_DOCKER_TOKEN"
-      },
+#       {
+#         default_value = oci_identity_auth_token.auth_token.token
+#         description   = "docker token to push images. OCID of secret created in Vault."
+#         name          = "VAULT_DOCKER_TOKEN"
+#       },
 
-      {
-        default_value = oci_adm_knowledge_base.knowledge_base.id
-        description   = "Knowledge base OCID VulnerabilityAudit of repo code"
-        name          = "KB_OCID"
-      },
-      # Add more additional parameters as needed
-    ]
-  )
-}
+#       {
+#         default_value = oci_adm_knowledge_base.knowledge_base.id
+#         description   = "Knowledge base OCID VulnerabilityAudit of repo code"
+#         name          = "KB_OCID"
+#       },
+#       # Add more additional parameters as needed
+#     ]
+#   )
+# }
 
 # Deploy pipeline
 variable "deploy_pipeline_parameters" {

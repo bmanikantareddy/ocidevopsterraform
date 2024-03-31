@@ -6,7 +6,7 @@ resource "oci_devops_build_pipeline" "build_pipeline" {
 
   build_pipeline_parameters {
     dynamic "items" {
-      for_each = local.combined_parameters #var.build_pipeline_parameters
+      for_each = var.build_pipeline_parameters #local.combined_parameters
 
       content {
         name           = items.value.name
