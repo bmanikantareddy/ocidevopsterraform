@@ -88,3 +88,5 @@ variable "knowledge_base_display_name" {
   type        = string
   default     = "KB_FSRE_TOOLS"
 }
+
+variable "dynamic_group_name" {}

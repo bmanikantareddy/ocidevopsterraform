@@ -1,11 +1,8 @@
 # Devops Project details
 variable "compartment_id" {}
-variable "project_name" {
-    default = "fsretools_cicd"
-}
-variable "project_description" {
-  default = "OCI Devops project created by Terraform"
-}
+variable "project_name" {}
+variable "project_description" {}
+variable "topic_id" {}
 # code Repo
 variable "repository_name" {
   default = "terraform_code_repo"
