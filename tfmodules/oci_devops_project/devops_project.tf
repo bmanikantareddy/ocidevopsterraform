@@ -1,10 +1,4 @@
-variable "project_name" {
-    default = "Java_micro_service"
-}
 
-variable "project_description" {
-  default = "OCI Devops project created by Terraform"
-}
 
 resource "oci_devops_project" "devops_project" {
     compartment_id = var.compartment_id
@@ -17,6 +11,3 @@ resource "oci_devops_project" "devops_project" {
 }
 
 
-output "project_id" {
-  value = oci_devops_project.devops_project.id
-}
