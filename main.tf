@@ -4,6 +4,8 @@ module "prereq" {
   tenancy_ocid = var.tenancy_ocid
   compartment_id = var.compartment_id
   user_ocid = var.user_ocid
+  use_existing_vault = var.use_existing_vault
+  existing_vault_id = var.existing_vault_id
 }
 
 locals {

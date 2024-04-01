@@ -17,6 +17,18 @@ variable "notification_topic_name" {
 }
 
 ############ VAULT ###################
+
+variable "use_existing_vault" {
+  description = "Set to true if you want to use an existing vault, false to create a new one."
+  type        = bool
+  default     = false
+}
+variable "existing_vault_id" {
+  description = "existing Vault OCID"
+  type        = string
+  default = ""
+}
+
 variable "vault_name" {
   description = "The name of the vault to be created or managed by Terraform. This vault will be used to securely store and manage sensitive data such as passwords, API keys, and certificates."
   type        = string

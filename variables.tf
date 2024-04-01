@@ -145,3 +145,15 @@ variable "deploy_environment_description" {}
 
 # Deploy environment display name
 variable "deploy_environment_display_name" {}
+
+
+variable "use_existing_vault" {
+  description = "Set to true if you want to use an existing vault, false to create a new one."
+  type        = bool
+  default     = false
+}
+variable "existing_vault_id" {
+  description = "existing Vault OCID"
+  type        = string
+  default = ""
+}
